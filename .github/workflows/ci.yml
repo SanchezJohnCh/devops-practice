@@ -1,6 +1,6 @@
-name: My First Pipeline
+name: My pipeline
 
-on:
+onn:
   push:
     branches:
       - main
@@ -8,28 +8,21 @@ on:
 jobs:
   first-job:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Say Hello
-        run: echo "Hello DevOps!"
-      
-      - name: checout code
-        uses: actions/checkout@v4
+      - name: checkout repository
+        uses: actions/checkout@v3
 
-      - name: Current Directory
+      - name: print present working directory
         run: pwd
-
-      - name: Current User
+      
+      - name: print current user
         run: whoami
 
-      - name: Operating System
+      - name: print system information
         run: uname -a
 
-      - name: Current Data
+      - name: print current date and time
         run: date
 
-      - name: Kernel Version
-        run: uname -r
-
-      - name: Show fies
-        run: ls -R
+      - name: print directory contents
+        run: ls -la  
