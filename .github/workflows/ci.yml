@@ -27,3 +27,6 @@ jobs:
 
       - name: Kernel Version
         run: uname -r
+
+      - name: Show fies
+        run: ls -al
