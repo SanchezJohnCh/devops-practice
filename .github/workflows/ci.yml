@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Say Hello
         run: echo "Hello DevOps!"
+      
+      - name: checout code
+        uses: actions/checkout@v4
 
       - name: Current Directory
         run: pwd
