@@ -44,4 +44,5 @@ jobs:
         run: |
           docker tag devops-training:latest ${{ secrets.DOCKER_USERNAME }}/devops-training:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USERNAME }}/devops-training:${{ github.sha }}
-
+      - name: deploy to server
+        run:: bash deploy.sh
