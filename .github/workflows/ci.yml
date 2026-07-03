@@ -43,5 +43,5 @@ jobs:
       - name: push docker image
         run: |
           docker tag devops-training:latest ${{ secrets.DOCKER_USERNAME }}/devops-training:v1.0.0
-          docker push ${{ secrets.DOCKER_USERNAME }}/devops-training:lv1.0.0
+          docker push ${{ secrets.DOCKER_USERNAME }}/devops-training:v1.0.0
 
