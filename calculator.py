@@ -1,3 +1,2 @@
-from calculator import add
-
-print(add(5, 3))
+def add(a, b):
+    return a + b
