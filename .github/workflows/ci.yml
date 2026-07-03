@@ -27,3 +27,9 @@ jobs:
           python app.py
       - name: run tests
         run: pytest 
+      
+      - name: build docker image
+        run: docker build -t  devops=training:latest .
+      
+      - name: Verify docker image
+        run: docker images
