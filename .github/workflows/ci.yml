@@ -9,17 +9,32 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Building"
-     
+      - uses: actions/checkout@v4
+      - name: "show build file"
+        run: cat build/version.txt
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+
   
   Test:
     needs: Build
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Testing"
+      - uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+
+
 
   Deploy:
     needs: Test
     runs-on: ubuntu-latest
     steps:
       - run: echo "Deploying"
+      
+      
