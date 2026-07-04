@@ -29,6 +29,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifact
+          path: downloaded_artifact/
+
+      - name: Show download artifact
+        run:: cat downloaded_artifact/version.txt
 
 
 
