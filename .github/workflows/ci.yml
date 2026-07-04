@@ -31,8 +31,8 @@ jobs:
           name: build-artifact
           path: downloaded_artifact/
 
-      - name: Show download artifact
-        run:: cat downloaded_artifact/version.txt
+      - name: Show downloaded artifact
+        run: cat downloaded_artifact/version.txt
 
 
 
