@@ -3,7 +3,7 @@ name: Python CI
 on:
   push:
     branches:
-      - main
+      - feature/jobs
 
 env:
   PYTHON_VERSION: "3.12"
