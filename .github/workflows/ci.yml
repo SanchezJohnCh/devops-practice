@@ -1,28 +1,83 @@
-name: My pipeline
+name: Python CI
 
 on:
   push:
     branches:
-      - main
+      - feature/jobs
+
+env:
+  PYTHON_VERSION: "3.12"
+  APP_NAME: "devops-pratice"
+  BUILD_FOLDER: "build"
 
 jobs:
-  first-job:
+  Build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: "show build file"
+        run: cat build/version.txt
 
-      - name: print present working directory
-        run: pwd
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: ${{ env.BUILD_FOLDER }}/
+
+      - name: Show Variables
+        run: |
+          echo "Application: $APP_NAME"
+          echo "Python: $PYTHON_VERSION"
+          echo "Folder: $BUILD_FOLDER"
+
+  
+  Test:
+    needs: Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+      # - name: Cache pip packages
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.cache/pip
+      #     key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pip-     
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: downloaded_artifact/
+
+      - name: Show downloaded artifact
+        run: cat downloaded_artifact/version.txt
+
+      - name: Run test
+        run: pytest 
+
+
+
+  Deploy:
+    needs: Test
+    if : github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying"
       
-      - name: print current user
-        run: whoami
 
-      - name: print system information
-        run: uname -a
-
-      - name: print current date and time
-        run: date
-
-      - name: print directory contents
-        run: ls -la  
+  
+#sds
