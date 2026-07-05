@@ -34,15 +34,29 @@ jobs:
   Test:
     needs: Build
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
     steps:
       - uses: actions/checkout@v4
-      - name: Cache pip packages
-        uses: actions/cache@v4
+      # - name: Cache pip packages
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.cache/pip
+      #     key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pip-     
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-     
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -51,6 +65,9 @@ jobs:
 
       - name: Show downloaded artifact
         run: cat downloaded_artifact/version.txt
+
+      - name: Run test
+      - run: pytest 
 
 
 
