@@ -67,7 +67,7 @@ jobs:
         run: cat downloaded_artifact/version.txt
 
       - name: Run test
-      - run: pytest 
+        run: pytest 
 
 
 
