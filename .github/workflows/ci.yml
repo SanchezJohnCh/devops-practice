@@ -5,6 +5,11 @@ on:
     branches:
       - feature/jobs
 
+env:
+  PYTHON_VERSION: "3.12"
+  APP_NAME: "devops-pratice"
+  BUILD_FOLDER: "build"
+
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -17,7 +22,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifact
-          path: build/
+          path: ${{ env.BUILD_FOLDER }}/
+
+      - name: Show Variables
+        run: |
+          echo "Application: $APP_NAME"
+          echo "Python: $PYTHON_VERSION"
+          echo "Folder: $BUILD_FOLDER"
 
   
   Test:
@@ -42,3 +53,5 @@ jobs:
     steps:
       - run: echo "Deploying"
       
+
+  
